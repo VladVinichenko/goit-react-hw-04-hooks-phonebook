@@ -16,7 +16,7 @@ function App() {
   const [filterInput, setFilterInput] = useState('')
 
 
-  onAddContact = (evt) => {
+  const onAddContact = (evt) => {
     evt.preventDefault()
     if (this.state.name.trim().length > 0) {
       this.setState(prevState => {
@@ -26,19 +26,19 @@ function App() {
     }
   }
 
-  onDeleteContact = (removeId) => {
+  const onDeleteContact = (removeId) => {
     this.setState({ contacts: this.state.contacts.filter(el => el.id !== removeId) })
     this.state.filterInput && this.setState({ filter: this.state.contacts.filter(el => el.id !== removeId) })
     this.onFilterChange()
   }
 
-  onInput = (evt) => {
+  const onInput = (evt) => {
     const data = {}
     data[evt.target.name] = evt.target.value
     this.setState(data)
   }
 
-  onFilterChange = () => {
+  const onFilterChange = () => {
     this.setState(prevState => {
       if (prevState.filterInput.trim().length > 0) {
         return { filter: prevState.contacts.filter(el => el.name.toLowerCase().includes(prevState.filterInput.toLowerCase())) }
@@ -47,19 +47,21 @@ function App() {
     })
   }
 
-  onInputFilter = (evt) => {
-    this.setState({ filterInput: evt.target.value })
-    this.onFilterChange()
+  const onInputFilter = (evt) => {
+
+    setFilterInput(evt.target.value)
+
+    onFilterChange()
   }
 
-  componentDidMount() {
-    const contacts = JSON.parse(localStorage.getItem('contacts'))
-    contacts && this.setState({ contacts: contacts })
-  }
+  // componentDidMount() {
+  //   const contacts = JSON.parse(localStorage.getItem('contacts'))
+  //   contacts && this.setState({ contacts: contacts })
+  // }
 
-  componentDidUpdate(prevProps, prevState) {
-    this.state.contacts !== prevProps.contacts && localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   this.state.contacts !== prevProps.contacts && localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+  // }
 
   render() {
     const renderList = this.state.filterInput.length > 0 ? this.state.filter : this.state.contacts
