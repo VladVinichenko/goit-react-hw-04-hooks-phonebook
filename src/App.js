@@ -33,29 +33,30 @@ function App() {
   }
 
   const onFilterChange = () => {
-    this.setState(prevState => {
-      if (prevState.filterInput.trim().length > 0) {
-        return { filter: prevState.contacts.filter(el => el.name.toLowerCase().includes(prevState.filterInput.toLowerCase())) }
-      }
-      return { filter: '' }
-    })
+    if (filterInput.trim().length > 0) {
+      setFilter(contacts.filter(el => el.name.toLowerCase().includes(filterInput.toLowerCase())))
+      return
+    }
+    setFilter('')
   }
+
 
   const onInputFilter = (evt) => {
     setFilterInput(evt.target.value)
     onFilterChange()
   }
 
-  // componentDidMount() {
-  //   const contacts = JSON.parse(localStorage.getItem('contacts'))
-  //   contacts && this.setState({ contacts: contacts })
-  // }
+  useEffect(() => {
+    const contactsLocal = JSON.parse(localStorage.getItem('contacts'))
+    contactsLocal && setContacts(contactsLocal)
+  }, [])
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   this.state.contacts !== prevProps.contacts && localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-  // }
+  useEffect(() => {
 
-  const renderList = this.state.filterInput.length > 0 ? this.state.filter : this.state.contacts
+    contacts !== contacts && localStorage.setItem('contacts', JSON.stringify(contacts));
+
+  }, [contacts])
+
   return (
     <Fragment>
       <Section>
@@ -63,7 +64,7 @@ function App() {
         <ContactForm onAddContact={onAddContact} onInputName={onInput} onInputTel={onInput} />
         <h2 className={s.title}>Contacts</h2>
         <Filter onInputFilter={onInputFilter} />
-        <ContactList renderList={renderList} onDeleteContact={onDeleteContact} />
+        <ContactList renderList={filterInput.length > 0 ? filter : contacts} onDeleteContact={onDeleteContact} />
       </Section>
     </Fragment>
   )
