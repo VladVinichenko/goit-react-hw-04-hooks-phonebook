@@ -21,10 +21,19 @@ function App() {
     setContacts([...contacts, { name: name, number: number, id: nanoid() }])
   }
 
+  const onFilterChange = (evt) => {
+    setFilterInput(evt)
+    if (evt.trim().length > 0) {
+      setFilter(contacts.filter(el => el.name.toLowerCase().includes(evt.toLowerCase())))
+      return
+    }
+    setFilter('')
+  }
+
   const onDeleteContact = (removeId) => {
     setContacts(contacts.filter(el => el.id !== removeId))
-    filterInput && setFilter(contacts.filter(el => el.id !== removeId))
-    onFilterChange()
+    setFilter(contacts.filter(el => el.id !== removeId))
+    onFilterChange(filterInput)
   }
 
   const onInput = (evt) => {
@@ -32,18 +41,9 @@ function App() {
     evt.target.name === "number" && setNumber(evt.target.value)
   }
 
-  const onFilterChange = () => {
-    if (filterInput.trim().length > 0) {
-      setFilter(contacts.filter(el => el.name.toLowerCase().includes(filterInput.toLowerCase())))
-      return
-    }
-    setFilter('')
-  }
-
-
   const onInputFilter = (evt) => {
     setFilterInput(evt.target.value)
-    onFilterChange()
+    onFilterChange(evt.target.value)
   }
 
   useEffect(() => {
@@ -52,9 +52,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-
-    contacts !== contacts && localStorage.setItem('contacts', JSON.stringify(contacts));
-
+    localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts])
 
   return (
