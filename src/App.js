@@ -12,24 +12,19 @@ function App() {
   const [contacts, setContacts] = useState([])
   const [filter, setFilter] = useState('')
   const [name, setName] = useState('')
-  const [numberm setNumber] = useState('')
+  const [number, setNumber] = useState('')
   const [filterInput, setFilterInput] = useState('')
 
 
   const onAddContact = (evt) => {
     evt.preventDefault()
-    if (this.state.name.trim().length > 0) {
-      this.setState(prevState => {
-        const contacts = [...prevState.contacts, { name: this.state.name, number: this.state.number, id: nanoid() }]
-        return { contacts: contacts }
-      })
-    }
+    setContacts([...contacts, { name: name, number: number, id: nanoid() }])
   }
 
   const onDeleteContact = (removeId) => {
-    this.setState({ contacts: this.state.contacts.filter(el => el.id !== removeId) })
-    this.state.filterInput && this.setState({ filter: this.state.contacts.filter(el => el.id !== removeId) })
-    this.onFilterChange()
+    setContacts(contacts.filter(el => el.id !== removeId))
+    filterInput && setFilter(contacts.filter(el => el.id !== removeId))
+    onFilterChange()
   }
 
   const onInput = (evt) => {
