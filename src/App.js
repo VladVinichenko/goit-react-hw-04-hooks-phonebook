@@ -21,10 +21,10 @@ function App() {
     setContacts([...contacts, { name: name, number: number, id: nanoid() }])
   }
 
-  const onFilterChange = (evt) => {
-    setFilterInput(evt)
-    if (evt.trim().length > 0) {
-      setFilter(contacts.filter(el => el.name.toLowerCase().includes(evt.toLowerCase())))
+  const onFilterChange = (filterInputValue) => {
+    setFilterInput(filterInputValue)
+    if (filterInputValue.trim().length > 0) {
+      setFilter(contacts.filter(el => el.name.toLowerCase().includes(filterInputValue.toLowerCase())))
       return
     }
     setFilter('')
