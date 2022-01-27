@@ -33,9 +33,8 @@ function App() {
   }
 
   const onInput = (evt) => {
-    const data = {}
-    data[evt.target.name] = evt.target.value
-    this.setState(data)
+    evt.target.name === "name" && setName(evt.target.value)
+    evt.target.name === "number" && setNumber(evt.target.value)
   }
 
   const onFilterChange = () => {
@@ -48,9 +47,7 @@ function App() {
   }
 
   const onInputFilter = (evt) => {
-
     setFilterInput(evt.target.value)
-
     onFilterChange()
   }
 
@@ -63,20 +60,19 @@ function App() {
   //   this.state.contacts !== prevProps.contacts && localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
   // }
 
-  render() {
-    const renderList = this.state.filterInput.length > 0 ? this.state.filter : this.state.contacts
-    return (
-      <Fragment>
-        <Section>
-          <h1 className={s.title}>Phonebook</h1>
-          <ContactForm onAddContact={this.onAddContact} onInputName={this.onInput} onInputTel={this.onInput} />
-          <h2 className={s.title}>Contacts</h2>
-          <Filter onInputFilter={this.onInputFilter} />
-          <ContactList renderList={renderList} onDeleteContact={this.onDeleteContact} />
-        </Section>
-      </Fragment>
-    )
-  }
+  const renderList = this.state.filterInput.length > 0 ? this.state.filter : this.state.contacts
+  return (
+    <Fragment>
+      <Section>
+        <h1 className={s.title}>Phonebook</h1>
+        <ContactForm onAddContact={onAddContact} onInputName={onInput} onInputTel={onInput} />
+        <h2 className={s.title}>Contacts</h2>
+        <Filter onInputFilter={onInputFilter} />
+        <ContactList renderList={renderList} onDeleteContact={onDeleteContact} />
+      </Section>
+    </Fragment>
+  )
+
 }
 
 
